@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
 
     const { data: userSubscription, error: subError } = await supabase
       .from('subscriptions')
-      .select('status')
+      .select('*, prices(*, products(*))')
       .in('status', ['trialing', 'active'])
       .eq('user_id', user.id)
       .maybeSingle();
