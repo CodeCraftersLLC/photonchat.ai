@@ -1,12 +1,13 @@
 import Image from 'next/image';
 
+import { getSession } from '@/features/account/controllers/get-session';
 import { PricingCard } from '@/features/pricing/components/price-card';
 import { getProducts } from '@/features/pricing/controllers/get-products';
 
 import { createCheckoutAction } from '../actions/create-checkout-action';
 
 export async function PricingSection({ isPricingPage }: { isPricingPage?: boolean }) {
-  const products = await getProducts();
+  const [products, session] = await Promise.all([getProducts(), getSession()]);
 
   const HeadingLevel = isPricingPage ? 'h1' : 'h2';
 
@@ -21,7 +22,14 @@ export async function PricingSection({ isPricingPage }: { isPricingPage?: boolea
         </p>
         <div className='flex w-full flex-col items-center justify-center gap-2 lg:flex-row lg:gap-8'>
           {products.map((product) => {
-            return <PricingCard key={product.id} product={product} createCheckoutAction={createCheckoutAction} />;
+            return (
+              <PricingCard
+                key={product.id}
+                product={product}
+                createCheckoutAction={createCheckoutAction}
+                userId={session?.user?.id}
+              />
+            );
           })}
         </div>
       </div>

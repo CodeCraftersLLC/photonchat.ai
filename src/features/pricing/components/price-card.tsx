@@ -2,12 +2,15 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { IoCheckmark } from 'react-icons/io5';
 
 import { SexyBoarder } from '@/components/sexy-boarder';
 import { Button } from '@/components/ui/button';
+import { InfoModal } from '@/components/ui/info-modal';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
+import { createSubscriptionInterestAction } from '../actions/create-subscription-interest-action';
 import { PriceCardVariant, productMetadataSchema } from '../models/product-metadata';
 import { BillingInterval, Price, ProductWithPrices } from '../types';
 
@@ -15,14 +18,19 @@ export function PricingCard({
   product,
   price,
   createCheckoutAction,
+  userId,
 }: {
   product: ProductWithPrices;
   price?: Price;
   createCheckoutAction?: ({ price }: { price: Price }) => void;
+  userId?: string;
 }) {
+  const router = useRouter();
   const [billingInterval, setBillingInterval] = useState<BillingInterval>(
     price ? (price.interval as BillingInterval) : 'month'
   );
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
   // Determine the price to render
   const currentPrice = useMemo(() => {
@@ -99,7 +107,29 @@ export function PricingCard({
               <Button
                 variant={buttonVariantMap[metadata.priceCardVariant]}
                 className='w-full'
-                onClick={() => createCheckoutAction({ price: currentPrice })}
+                onClick={async () => {
+                  if (!userId) {
+                    router.push('/signup');
+                    return;
+                  }
+                  try {
+                    // Note: currently this is the monthly price: price_1RHDndKT3Z6e9gCZrr2wS8t0
+                    // and this is the yearly price: price_1RHDneKT3Z6e9gCZVgEvwMUU
+                    const result = await createSubscriptionInterestAction({ price: currentPrice, userId });
+                    if (result.error) {
+                      setModalMessage(result.error);
+                    } else {
+                      setModalMessage(
+                        'We will email you when the subscription is available. Thank you for your patience!'
+                      );
+                    }
+                    setIsInfoModalOpen(true);
+                  } catch (error) {
+                    console.error('Error creating subscription interest:', error);
+                    setModalMessage('Something went wrong. Please try again later.');
+                    setIsInfoModalOpen(true);
+                  }
+                }}
               >
                 Get Started
               </Button>
@@ -112,6 +142,12 @@ export function PricingCard({
           </div>
         )}
       </div>
+      <InfoModal
+        isOpen={isInfoModalOpen}
+        onClose={() => setIsInfoModalOpen(false)}
+        title={`${product.name} Plan Details`}
+        description={modalMessage || 'This is a preview mode. Purchase functionality is currently disabled.'}
+      />
     </WithSexyBorder>
   );
 }
