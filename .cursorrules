@@ -1,0 +1,2 @@
+- do not install new dependencies unless asked to
+- do not run supabase migrations unless asked to
