@@ -1,13 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom styles from index.html */
+.gradient-bg {
+  background: linear-gradient(135deg, #6b46c1 0%, #3b82f6 100%);
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.pricing-card:hover {
+  transform: scale(1.03);
+}
+
+.hero-image {
+  filter: drop-shadow(0 20px 13px rgba(0, 0, 0, 0.1));
+}
+
+/* Font rendering adjustments to match index.html */
+
 @layer base {
   :root {
-    --background: 240 6% 10%;
-    --foreground: 60 0% 90%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
 
-    --muted: 240 6% 10%;
-    --muted-foreground: 240 5% 84%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 56.9%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
@@ -67,41 +88,14 @@
 
     --radius: 0.5rem;
   }
-  ::selection {
-    @apply text-black;
-    @apply bg-cyan-400;
-  }
-  *:focus-visible {
-    @apply outline;
-    @apply outline-2;
-    @apply outline-offset-2;
-    @apply outline-pink-500;
-  }
-  * {
-    @apply border-border;
-    @apply min-w-0;
-  }
+
+  /* Match the exact font settings from index.html */
   body {
-    @apply bg-background text-foreground;
-    font-feature-settings: 'rlig' 1, 'calt' 1;
-  }
-  html {
-    @apply h-full;
-  }
-  body {
-    @apply h-full;
-  }
-  h1 {
-    @apply font-alt;
-    @apply font-bold;
-    @apply text-4xl;
-    @apply text-white;
-    @apply lg:text-6xl;
-    @apply bg-clip-text;
-    @apply drop-shadow-[0_0_15px_rgba(0,0,0,1)];
-    @apply lg:text-transparent;
-    @apply lg:bg-gradient-to-br;
-    @apply from-white;
-    @apply to-neutral-400;
+    @apply text-gray-800;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    letter-spacing: normal;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }

@@ -12,8 +12,13 @@ import { toast } from '@/components/ui/use-toast';
 import { ActionResponse } from '@/types/action-response';
 
 const titleMap = {
-  login: 'Login to Proton Chat',
-  signup: 'Join Proton Chat and start generating banners for free',
+  login: 'Welcome Back',
+  signup: 'Create Your Account',
+} as const;
+
+const subtitleMap = {
+  login: 'Log in to access your secure chat interface',
+  signup: 'Start your journey with ProtonChat.ai',
 } as const;
 
 export function AuthUI({
@@ -64,54 +69,69 @@ export function AuthUI({
   }
 
   return (
-    <section className='mt-16 flex w-full flex-col gap-16 rounded-lg bg-black p-10 px-4 text-center'>
-      <div className='flex flex-col gap-4'>
-        <Image src='/logo.png' width={80} height={80} alt='' className='m-auto' />
-        <h1 className='text-lg'>{titleMap[mode]}</h1>
+    <div className='w-full space-y-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-xl'>
+      <div className='space-y-2 text-center'>
+        <h2 className='text-2xl font-bold tracking-tight text-gray-900'>{titleMap[mode]}</h2>
       </div>
-      <div className='flex flex-col gap-4'>
+
+      <div className='space-y-4'>
         <button
-          className='flex items-center justify-center gap-2 rounded-md bg-cyan-500 py-4 font-medium text-black transition-all hover:bg-cyan-400 disabled:bg-neutral-700'
+          className='flex w-full items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-medium text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-200 hover:bg-gray-50 disabled:opacity-70'
           onClick={() => handleOAuthClick('google')}
           disabled={pending}
         >
-          <IoLogoGoogle size={20} />
+          <IoLogoGoogle size={20} className='text-gray-600' />
           Continue with Google
         </button>
+
         <button
-          className='flex items-center justify-center gap-2 rounded-md bg-fuchsia-500 py-4 font-medium text-black transition-all hover:bg-fuchsia-400 disabled:bg-neutral-700'
+          className='flex w-full items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-medium text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-200 hover:bg-gray-50 disabled:opacity-70'
           onClick={() => handleOAuthClick('github')}
           disabled={pending}
         >
-          <IoLogoGithub size={20} />
+          <IoLogoGithub size={20} className='text-gray-600' />
           Continue with GitHub
         </button>
+
+        <div className='relative'>
+          <div className='absolute inset-0 flex items-center'>
+            <div className='w-full border-t border-gray-200'></div>
+          </div>
+          <div className='relative flex justify-center text-sm'>
+            <span className='bg-white px-2 text-gray-500'>Or continue with</span>
+          </div>
+        </div>
 
         <Collapsible open={emailFormOpen} onOpenChange={setEmailFormOpen}>
           <CollapsibleTrigger asChild>
             <button
-              className='text-neutral6 flex w-full items-center justify-center gap-2 rounded-md bg-zinc-900 py-4 font-medium transition-all hover:bg-zinc-800 disabled:bg-neutral-700 disabled:text-black'
+              className='flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-3 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-indigo-500 disabled:opacity-70'
               disabled={pending}
             >
-              Continue with Email
+              Email
             </button>
           </CollapsibleTrigger>
           <CollapsibleContent>
-            <div className='mt-[-2px] w-full rounded-b-md bg-zinc-900 p-8'>
-              <form onSubmit={handleEmailSubmit}>
+            <div className='mt-3 rounded-lg bg-gray-50 p-4'>
+              <form onSubmit={handleEmailSubmit} className='space-y-4'>
                 <Input
                   type='email'
                   name='email'
                   placeholder='Enter your email'
                   aria-label='Enter your email'
                   autoFocus
+                  className='border-gray-300 bg-white text-gray-900 placeholder:text-gray-400'
                 />
-                <div className='mt-4 flex justify-end gap-2'>
-                  <Button type='button' onClick={() => setEmailFormOpen(false)}>
+                <div className='flex justify-end gap-2'>
+                  <Button
+                    type='button'
+                    onClick={() => setEmailFormOpen(false)}
+                    className='bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
+                  >
                     Cancel
                   </Button>
-                  <Button variant='secondary' type='submit'>
-                    Submit
+                  <Button type='submit' className='bg-indigo-600 text-white hover:bg-indigo-500'>
+                    Continue
                   </Button>
                 </div>
               </form>
@@ -119,19 +139,27 @@ export function AuthUI({
           </CollapsibleContent>
         </Collapsible>
       </div>
-      {mode === 'signup' && (
-        <span className='text-neutral5 m-auto max-w-sm text-sm'>
-          By clicking continue, you agree to our{' '}
-          <Link href='/terms' className='underline'>
+
+      {mode === 'signup' ? (
+        <p className='text-center text-sm text-gray-500'>
+          By continuing, you agree to our{' '}
+          <Link href='/terms' className='text-indigo-600 hover:text-indigo-500'>
             Terms of Service
           </Link>{' '}
           and{' '}
-          <Link href='/privacy' className='underline'>
+          <Link href='/privacy' className='text-indigo-600 hover:text-indigo-500'>
             Privacy Policy
           </Link>
           .
-        </span>
+        </p>
+      ) : (
+        <p className='text-center text-sm text-gray-500'>
+          Don&apos;t have an account?{' '}
+          <Link href='/signup' className='text-indigo-600 hover:text-indigo-500'>
+            Sign up
+          </Link>
+        </p>
       )}
-    </section>
+    </div>
   );
 }

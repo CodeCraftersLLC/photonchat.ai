@@ -14,7 +14,7 @@ export async function Navigation() {
 
   return (
     <div className='relative flex items-center gap-6'>
-      {session ? (
+      {/* {session ? (
         <AccountMenu signOut={signOut} />
       ) : (
         <>
@@ -37,7 +37,7 @@ export async function Navigation() {
             </SheetContent>
           </Sheet>
         </>
-      )}
+      )} */}
     </div>
   );
 }
