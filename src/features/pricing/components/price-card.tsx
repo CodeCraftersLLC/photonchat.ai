@@ -87,7 +87,7 @@ export function PricingCard({
                     return;
                   }
                   try {
-                    const result = await createSubscriptionInterestAction({ price: currentPrice, userId });
+                    const result = await createSubscriptionInterestAction({ price: currentPrice });
                     if (result.error) {
                       setModalMessage(result.error);
                     } else {
