@@ -15,8 +15,7 @@
     "supabase:link": "env-cmd -f ./.env.local supabase link --project-ref sxlkeoqlkdlhsyewclni",
     "migration:new": "supabase migration new",
     "migration:up": "supabase migration up --linked --debug && npm run generate-types",
-    "migration:squash": "supabase migration squash --linked",
-    "vercel-build": "npm install --include=optional sharp && echo \"Sharp version: $(npm list sharp)\""
+    "migration:squash": "supabase migration squash --linked"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
