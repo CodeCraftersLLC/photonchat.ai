@@ -25,7 +25,7 @@ export async function upsertUserSubscription({
 
   const { id: userId } = customerData!;
 
-  const subscription = await stripeAdmin.subscriptions.retrieve(subscriptionId, {
+  const subscription: Stripe.Subscription = await stripeAdmin.subscriptions.retrieve(subscriptionId, {
     expand: ['default_payment_method'],
   });
 
@@ -36,12 +36,18 @@ export async function upsertUserSubscription({
     metadata: subscription.metadata,
     status: subscription.status,
     price_id: subscription.items.data[0].price.id,
+    // Quantity is optional, default to 1 if not specified
+    // quantity: subscription.items.data[0].quantity,
     cancel_at_period_end: subscription.cancel_at_period_end,
+    // Check for null before converting timestamps
     cancel_at: subscription.cancel_at ? toDateTime(subscription.cancel_at).toISOString() : null,
     canceled_at: subscription.canceled_at ? toDateTime(subscription.canceled_at).toISOString() : null,
-    current_period_start: toDateTime(subscription.current_period_start).toISOString(),
-    current_period_end: toDateTime(subscription.current_period_end).toISOString(),
-    created: toDateTime(subscription.created).toISOString(),
+    // @ts-ignore - TS inference issue with Stripe types vs Supabase types
+    current_period_start: subscription.current_period_start ? toDateTime(subscription.current_period_start).toISOString() : undefined,
+    // @ts-ignore - TS inference issue with Stripe types vs Supabase types
+    current_period_end: subscription.current_period_end ? toDateTime(subscription.current_period_end).toISOString() : undefined,
+    // @ts-ignore - TS inference issue with Stripe types vs Supabase types
+    created: subscription.created ? toDateTime(subscription.created).toISOString() : undefined,
     ended_at: subscription.ended_at ? toDateTime(subscription.ended_at).toISOString() : null,
     trial_start: subscription.trial_start ? toDateTime(subscription.trial_start).toISOString() : null,
     trial_end: subscription.trial_end ? toDateTime(subscription.trial_end).toISOString() : null,

@@ -24,7 +24,10 @@ export async function POST(req: Request) {
   let event: Stripe.Event;
 
   try {
-    if (!sig || !webhookSecret) return;
+    if (!sig || !webhookSecret) {
+      console.error('Stripe webhook secret not set.');
+      return Response.json('Stripe webhook secret not set.', { status: 400 });
+    }
     event = stripeAdmin.webhooks.constructEvent(body, sig, webhookSecret);
   } catch (error) {
     return Response.json(`Webhook Error: ${(error as any).message}`, { status: 400 });

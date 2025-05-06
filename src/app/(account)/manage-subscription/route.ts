@@ -12,7 +12,7 @@ export async function GET() {
   const session = await getSession();
 
   if (!session || !session.user.id) {
-    throw Error('Could not get userId');
+    redirect('/account?error=Could not get userId');
   }
 
   // 2. Retrieve or create the customer in Stripe
@@ -21,7 +21,7 @@ export async function GET() {
   });
 
   if (!customer) {
-    throw Error('Could not get customer');
+    redirect('/account?error=Could not get customer');
   }
 
   // 3. Create portal link and redirect user
