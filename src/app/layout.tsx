@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react';
 import type { Metadata } from 'next';
 import { Inter, Montserrat, Montserrat_Alternates } from 'next/font/google';
 import Link from 'next/link';
+import Script from 'next/script';
 import { IoLogoFacebook, IoLogoInstagram, IoLogoTwitter } from 'react-icons/io5';
 
 import { Logo } from '@/components/logo';
@@ -106,6 +107,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang='en'>
+      <Script async src="https://scripts.simpleanalyticscdn.com/latest.js" />
       <body className={cn('font-sans antialiased', montserrat.variable, montserratAlternates.variable)}>
         {children}
       </body>
