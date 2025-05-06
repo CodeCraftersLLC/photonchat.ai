@@ -1,4 +1,4 @@
 - do not install new dependencies unless asked to
-- always use npm to manage dependencies
+- always use bun to manage dependencies
 - do not run supabase migrations unless asked to
 - ALWAYS cd to the correct directory first before running any commands
