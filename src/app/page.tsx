@@ -32,8 +32,12 @@ config.autoAddCss = false;
 
 import { FaBrain, FaCheck, FaCommentAlt, FaDownload, FaEnvelope, FaGithub, FaLock, FaSignInAlt } from 'react-icons/fa';
 
+import { InfoModal } from '@/components/ui/info-modal';
 import { fetchProducts } from '@/features/pricing/actions';
+import { createSubscriptionInterestAction } from '@/features/pricing/actions/create-subscription-interest-action';
 import { Price, ProductWithPrices } from '@/features/pricing/types';
+import { createSupabaseBrowserClient } from '@/libs/supabase/supabase-browser-client';
+import type { User } from '@supabase/supabase-js';
 
 import appScreenShot from './app-screen-shot.jpg';
 
@@ -62,6 +66,12 @@ export default function HomePage() {
   const [products, setProducts] = useState<ProductWithPrices[]>([]);
   const monthPriceAmount = products[0]?.prices.find((p) => p.interval === 'month')?.unit_amount ?? 1000;
   const yearPriceAmount = products[0]?.prices.find((p) => p.interval === 'year')?.unit_amount ?? 8000;
+  const monthlyPrice = products[0]?.prices.find((p) => p.interval === 'month');
+  const yearlyPrice = products[0]?.prices.find((p) => p.interval === 'year');
+  const [user, setUser] = useState<User | null>(null);
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
 
   useEffect(() => {
     // Smooth scrolling for anchor links
@@ -122,11 +132,49 @@ export default function HomePage() {
 
     loadProducts();
 
+    const fetchUser = async () => {
+      const supabase = createSupabaseBrowserClient();
+      const { data } = await supabase.auth.getUser();
+      setUser(data.user);
+    };
+    fetchUser();
+
     return () => {
       observer.disconnect();
       animateOnScroll.disconnect();
     };
   }, []);
+
+  const handleGetStartedClick = async (price: Price | undefined, planName: string) => {
+    if (!price) {
+      console.error('Price not found for', planName);
+      setModalTitle('Error');
+      setModalMessage('Pricing information is currently unavailable. Please try again later.');
+      setIsInfoModalOpen(true);
+      return;
+    }
+
+    if (!user) {
+      router.push('/signup');
+      return;
+    }
+
+    try {
+      const result = await createSubscriptionInterestAction({ price: price });
+      setModalTitle(`${planName} Plan Interest`);
+      if (result.error) {
+        setModalMessage(result.error);
+      } else {
+        setModalMessage('We will email you when the subscription is available. Thank you for your patience!');
+      }
+      setIsInfoModalOpen(true);
+    } catch (error) {
+      console.error('Error creating subscription interest:', error);
+      setModalTitle('Error');
+      setModalMessage('Something went wrong. Please try again later.');
+      setIsInfoModalOpen(true);
+    }
+  };
 
   return (
     <>
@@ -318,12 +366,13 @@ export default function HomePage() {
                     </li>
                   </ul>
                 </div>
-                <a
-                  href='/signup'
-                  className='mt-8 block w-full rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-center font-medium text-white hover:bg-indigo-700'
+                <button
+                  onClick={() => handleGetStartedClick(monthlyPrice, 'Monthly')}
+                  disabled={!monthlyPrice} // Disable if price is not loaded
+                  className='mt-8 block w-full rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-center font-medium text-white hover:bg-indigo-700 disabled:opacity-50'
                 >
                   Get started
-                </a>
+                </button>
               </div>
 
               {/* Annual Plan */}
@@ -353,12 +402,13 @@ export default function HomePage() {
                     </li>
                   </ul>
                 </div>
-                <a
-                  href='/signup'
-                  className='mt-8 block w-full rounded-md border border-transparent bg-white px-6 py-3 text-center font-medium text-gray-900 hover:bg-gray-100'
+                <button
+                  onClick={() => handleGetStartedClick(yearlyPrice, 'Annual')}
+                  disabled={!yearlyPrice} // Disable if price is not loaded
+                  className='mt-8 block w-full rounded-md border border-transparent bg-white px-6 py-3 text-center font-medium text-gray-900 hover:bg-gray-100 disabled:opacity-50'
                 >
                   Get started
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -538,6 +588,13 @@ export default function HomePage() {
           </div>
         </footer>
       </div>
+      {/* Info Modal */}
+      <InfoModal
+        isOpen={isInfoModalOpen}
+        onClose={() => setIsInfoModalOpen(false)}
+        title={modalTitle}
+        description={modalMessage || 'This is a preview mode. Purchase functionality is currently disabled.'}
+      />
     </>
   );
 }

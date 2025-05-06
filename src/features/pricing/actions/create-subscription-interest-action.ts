@@ -1,22 +1,31 @@
 'use server';
 
 import { supabaseAdminClient } from '@/libs/supabase/supabase-admin';
+import { createSupabaseServerClient } from '@/libs/supabase/supabase-server-client';
 import type { Database } from '@/libs/supabase/types';
 
 type Price = Database['public']['Tables']['prices']['Row'];
 
-const supabase = supabaseAdminClient as unknown as typeof supabaseAdminClient & {
+const supabaseDB = supabaseAdminClient as unknown as typeof supabaseAdminClient & {
   from: (table: 'subscription_interests') => any;
 };
 
-export async function createSubscriptionInterestAction({ price, userId }: { price: Price; userId: string }) {
+export async function createSubscriptionInterestAction({ price }: { price: Price }) {
+  const supabase = await createSupabaseServerClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+      console.error('Authentication error:', authError);
+      return { error: 'User must be authenticated to express interest.' };
+  }
+
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseDB
       .from('subscription_interests')
       .insert([
         {
           price_id: price.id,
-          user_id: userId,
+          user_id: user.id,
         },
       ])
       .select()
