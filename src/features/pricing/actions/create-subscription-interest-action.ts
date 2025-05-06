@@ -1,7 +1,7 @@
 'use server';
 
-import { createSupabaseServerClient } from '@/libs/supabase/supabase-server-client';
 import { supabaseAdminClient } from '@/libs/supabase/supabase-admin';
+import { createSupabaseServerClient } from '@/libs/supabase/supabase-server-client';
 import type { Database } from '@/libs/supabase/types';
 
 type Price = Database['public']['Tables']['prices']['Row'];
