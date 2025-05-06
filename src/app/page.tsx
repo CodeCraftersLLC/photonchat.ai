@@ -160,7 +160,7 @@ export default function HomePage() {
     }
 
     try {
-      const result = await createSubscriptionInterestAction({ price: price, userId: user.id });
+      const result = await createSubscriptionInterestAction({ price: price });
       setModalTitle(`${planName} Plan Interest`);
       if (result.error) {
         setModalMessage(result.error);
