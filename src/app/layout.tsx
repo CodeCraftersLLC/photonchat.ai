@@ -29,18 +29,16 @@ const montserratAlternates = Montserrat_Alternates({
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'ProtonChat.ai',
-  description: 'Secure Chat with Proton Data',
-  keywords: [
-    'ProtonChat.ai',
-  ],
-  category: 'ProtonChat.ai',
+  title: 'Proton Chat',
+  description: 'Chat securely with your Proton Mail data using AI-powered conversations and insights',
+  keywords: ['Proton Chat', 'Proton Mail', 'ProtonMail', 'Proton', 'AI Email', 'Email Chat'],
+  category: 'Email',
 
   openGraph: {
-    title: 'ProtonChat.ai',
+    title: 'Proton Chat',
     description: 'Secure Chat with Proton Data',
     url: 'https://www.protonchat.ai',
-    siteName: 'ProtonChat.ai',
+    siteName: 'Proton Chat',
     // images: [
     //   {
     //     url: 'https://www.protonchat.ai/opengraph-image.jpg',
@@ -54,7 +52,7 @@ export const metadata: Metadata = {
 
   // twitter: {
   //   card: 'summary_large_image',
-  //   title: 'ProtonChat.ai',
+  //   title: 'Proton Chat',
   //   description: 'ProtonChat.ai',
   //   creator: '@ProtonChat',
   //   siteId: 'TODO',
@@ -98,6 +96,9 @@ export const metadata: Metadata = {
 
   manifest: '/favicon/site.webmanifest',
 
+  alternates: {
+    canonical: '/',
+  },
   metadataBase: new URL('https://protonchat.ai'),
   // other: {
   //   'facebook-domain-verification': 'TODO',
@@ -107,7 +108,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang='en'>
-      <Script async src="https://scripts.simpleanalyticscdn.com/latest.js" />
+      <Script async src='https://scripts.simpleanalyticscdn.com/latest.js' />
       <body className={cn('font-sans antialiased', montserrat.variable, montserratAlternates.variable)}>
         {children}
       </body>
