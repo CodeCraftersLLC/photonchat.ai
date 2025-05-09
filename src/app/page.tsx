@@ -539,7 +539,7 @@ export default function HomePage() {
                     <h3 className='text-sm font-semibold uppercase tracking-wider text-gray-400'>Company</h3>
                     <ul className='mt-4 space-y-4'>
                       <li>
-                        <a href='#' className='text-base text-gray-500 hover:text-gray-900'>
+                        <a href='/about' className='text-base text-gray-500 hover:text-gray-900'>
                           {' '}
                           About{' '}
                         </a>
@@ -573,7 +573,7 @@ export default function HomePage() {
                         </a>
                       </li>
                       <li>
-                        <a href='#' className='text-base text-gray-500 hover:text-gray-900'>
+                        <a href='/about' className='text-base text-gray-500 hover:text-gray-900'>
                           {' '}
                           Contact{' '}
                         </a>
