@@ -20,8 +20,8 @@ export default function AboutPage() {
         <div className='mt-10'>
           <h2 className='mb-4 text-xl font-semibold'>Our Mission</h2>
           <p>
-            At Code Crafters, we believe privacy should be accessible to everyone. We're dedicated to creating tools
-            that respect user data and give people control over their digital lives.
+            At Code Crafters, we believe privacy should be accessible to everyone. We&apos;re dedicated to creating
+            tools that respect user data and give people control over their digital lives.
           </p>
           <p>
             PhotonChat.ai is built with this philosophy in mind - a powerful AI tool that works entirely on your device,
@@ -32,8 +32,8 @@ export default function AboutPage() {
         <div className='mt-10'>
           <h2 className='mb-4 text-xl font-semibold'>Open Source Commitment</h2>
           <p>
-            We're passionate about open source software. By making our code publicly available, we ensure transparency,
-            enable community contributions, and make privacy-respecting technology accessible to all.
+            We&apos;re passionate about open source software. By making our code publicly available, we ensure
+            transparency, enable community contributions, and make privacy-respecting technology accessible to all.
           </p>
           <p>
             Our projects are built in the open, allowing anyone to inspect the code, verify our privacy claims, and
@@ -44,8 +44,8 @@ export default function AboutPage() {
         <div className='mt-10'>
           <h2 className='mb-4 text-xl font-semibold'>Get In Touch</h2>
           <p>
-            We'd love to hear from you! Whether you have questions, feedback, or just want to say hello, you can reach
-            us at <a href='mailto:support@photonchat.ai'>support@codecrafters.llc</a>
+            We&apos;d love to hear from you! Whether you have questions, feedback, or just want to say hello, you can
+            reach us at <a href='mailto:support@photonchat.ai'>support@codecrafters.llc</a>
           </p>
         </div>
       </main>
