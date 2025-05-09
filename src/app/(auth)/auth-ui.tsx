@@ -18,7 +18,7 @@ const titleMap = {
 
 const subtitleMap = {
   login: 'Log in to access your secure chat interface',
-  signup: 'Start your journey with ProtonChat.ai',
+  signup: 'Start your journey with PhotonChat.ai',
 } as const;
 
 export function AuthUI({
@@ -105,7 +105,7 @@ export function AuthUI({
         <Collapsible open={emailFormOpen} onOpenChange={setEmailFormOpen}>
           <CollapsibleTrigger asChild>
             <button
-              className='flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-3 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-indigo-500 disabled:opacity-70'
+              className='flex w-full items-center justify-center gap-2 rounded-lg bg-black px-4 py-3 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-black/90 disabled:opacity-70'
               disabled={pending}
             >
               Email
@@ -130,7 +130,7 @@ export function AuthUI({
                   >
                     Cancel
                   </Button>
-                  <Button type='submit' className='bg-indigo-600 text-white hover:bg-indigo-500'>
+                  <Button type='submit' className='bg-black text-white hover:bg-black/90'>
                     Continue
                   </Button>
                 </div>
@@ -143,11 +143,11 @@ export function AuthUI({
       {mode === 'signup' ? (
         <p className='text-center text-sm text-gray-500'>
           By continuing, you agree to our{' '}
-          <Link href='/terms' className='text-indigo-600 hover:text-indigo-500'>
+          <Link href='/terms' className='text-black hover:text-black/90'>
             Terms of Service
           </Link>{' '}
           and{' '}
-          <Link href='/privacy' className='text-indigo-600 hover:text-indigo-500'>
+          <Link href='/privacy' className='text-black hover:text-black/90'>
             Privacy Policy
           </Link>
           .
@@ -155,7 +155,7 @@ export function AuthUI({
       ) : (
         <p className='text-center text-sm text-gray-500'>
           Don&apos;t have an account?{' '}
-          <Link href='/signup' className='text-indigo-600 hover:text-indigo-500'>
+          <Link href='/signup' className='text-black hover:text-black/90'>
             Sign up
           </Link>
         </p>

@@ -29,21 +29,19 @@ const montserratAlternates = Montserrat_Alternates({
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'ProtonChat.ai',
-  description: 'Secure Chat with Proton Data',
-  keywords: [
-    'ProtonChat.ai',
-  ],
-  category: 'ProtonChat.ai',
+  title: 'Photon Chat',
+  description: 'Chat securely with your Photon Mail data using AI-powered conversations and insights',
+  keywords: ['Photon Chat', 'Photon Mail', 'PhotonMail', 'Photon', 'AI Email', 'Email Chat'],
+  category: 'Email',
 
   openGraph: {
-    title: 'ProtonChat.ai',
-    description: 'Secure Chat with Proton Data',
-    url: 'https://www.protonchat.ai',
-    siteName: 'ProtonChat.ai',
+    title: 'Photon Chat',
+    description: 'The AI Email Agent',
+    url: 'https://www.photonchat.ai',
+    siteName: 'Photon Chat',
     // images: [
     //   {
-    //     url: 'https://www.protonchat.ai/opengraph-image.jpg',
+    //     url: 'https://www.photonchat.ai/opengraph-image.jpg',
     //     width: 1200,
     //     height: 630,
     //   },
@@ -54,12 +52,12 @@ export const metadata: Metadata = {
 
   // twitter: {
   //   card: 'summary_large_image',
-  //   title: 'ProtonChat.ai',
-  //   description: 'ProtonChat.ai',
-  //   creator: '@ProtonChat',
+  //   title: 'Photon Chat',
+  //   description: 'PhotonChat.ai',
+  //   creator: '@PhotonChat',
   //   siteId: 'TODO',
   //   creatorId: 'TODO',
-  //   images: ['https://www.protonchat.ai/opengraph-image.jpg'],
+  //   images: ['https://www.photonchat.ai/opengraph-image.jpg'],
   // },
 
   icons: {
@@ -98,7 +96,10 @@ export const metadata: Metadata = {
 
   manifest: '/favicon/site.webmanifest',
 
-  metadataBase: new URL('https://protonchat.ai'),
+  alternates: {
+    canonical: '/',
+  },
+  metadataBase: new URL('https://photonchat.ai'),
   // other: {
   //   'facebook-domain-verification': 'TODO',
   // },
@@ -107,7 +108,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang='en'>
-      <Script async src="https://scripts.simpleanalyticscdn.com/latest.js" />
+      <Script async src='https://scripts.simpleanalyticscdn.com/latest.js' />
       <body className={cn('font-sans antialiased', montserrat.variable, montserratAlternates.variable)}>
         {children}
       </body>

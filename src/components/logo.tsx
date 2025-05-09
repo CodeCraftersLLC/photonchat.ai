@@ -4,8 +4,8 @@ import Link from 'next/link';
 export function Logo() {
   return (
     <Link href='/' className='flex w-fit items-center gap-2'>
-      <Image src='/logo.png' width={40} height={40} priority quality={100} alt='Proton Chat logo mark' />
-      <span className='font-alt text-xl text-white'>Proton Chat</span>
+      <Image src='/photon-chat-logo.png' alt='Photon Chat Logo' width={40} height={40} />
+      <span className='font-alt text-xl text-white'>Photon Chat</span>
     </Link>
   );
 }
