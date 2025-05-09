@@ -18,7 +18,7 @@ const titleMap = {
 
 const subtitleMap = {
   login: 'Log in to access your secure chat interface',
-  signup: 'Start your journey with ProtonChat.ai',
+  signup: 'Start your journey with PhotonChat.ai',
 } as const;
 
 export function AuthUI({

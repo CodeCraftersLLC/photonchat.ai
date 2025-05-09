@@ -11,14 +11,14 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800',
+        default: 'bg-black text-white hover:bg-black/90',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
-        link: 'text-primary underline-offset-4 hover:underline',
-        orange: 'bg-orange-500 hover:bg-orange-400',
-        sexy: 'transition-all bg-black hover:bg-opacity-0',
+        outline: 'border border-black bg-white text-black hover:bg-gray-100',
+        secondary: 'bg-white text-black border border-black hover:bg-gray-100',
+        ghost: 'hover:bg-gray-100 text-black',
+        link: 'text-black underline-offset-4 hover:underline',
+        orange: 'bg-black text-white hover:bg-black/90',
+        sexy: 'bg-black text-white hover:bg-black/90',
       },
       size: {
         default: 'h-10 px-4',
@@ -31,7 +31,7 @@ const buttonVariants = cva(
       variant: 'default',
       size: 'default',
     },
-  }
+  },
 );
 
 export interface ButtonProps
@@ -48,7 +48,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
       </WithSexyBorder>
     );
-  }
+  },
 );
 Button.displayName = 'Button';
 

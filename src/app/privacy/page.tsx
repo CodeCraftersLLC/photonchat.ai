@@ -8,15 +8,15 @@ export default function PrivacyPage() {
       <Navbar />
 
       <main className='prose prose-indigo prose-a:text-indigo-600 mx-auto max-w-3xl px-6 py-10'>
-        <h1 className='!mb-8 text-center text-3xl font-bold'>Privacy Policy for ProtonChat.ai</h1>
+        <h1 className='!mb-8 text-center text-3xl font-bold'>Privacy Policy for PhotonChat.ai</h1>
         <p className='!mt-0 text-sm text-gray-500'>Effective date: {new Date().toISOString().split('T')[0]}</p>
 
         <h2 className='mt-10 text-xl font-semibold'>Introduction</h2>
         <p>
-          Code Crafters LLC (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) operates the ProtonChat.ai application
-          (the &ldquo;Service&rdquo;). We are committed to protecting the privacy of our users (&ldquo;you&rdquo;). This
-          Privacy Policy outlines our policies regarding the collection, use, and disclosure of personal information we
-          receive from users of the Service.
+          Code Crafters LLC (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) operates the PhotonChat.ai
+          application (the &ldquo;Service&rdquo;). We are committed to protecting the privacy of our users
+          (&ldquo;you&rdquo;). This Privacy Policy outlines our policies regarding the collection, use, and disclosure
+          of personal information we receive from users of the Service.
         </p>
         <p>
           By using the Service, you agree to the collection and use of information in accordance with this Privacy
@@ -26,7 +26,7 @@ export default function PrivacyPage() {
 
         <h2 className='mt-10 text-xl font-semibold'>Collection and Use of Personal Information</h2>
         <p>
-          ProtonChat.ai is primarily a client application that stores all personal data directly on your device,
+          PhotonChat.ai is primarily a client application that stores all personal data directly on your device,
           ensuring your privacy. We do not collect any personal data that could be used to identify you unless it is
           specifically and knowingly provided by you.
         </p>
@@ -59,7 +59,7 @@ export default function PrivacyPage() {
 
         <h2 className='mt-10 text-xl font-semibold'>Cookies and Tracking Technologies</h2>
         <p>
-          ProtonChat.ai does not directly use cookies. However, some third-party services we utilize may employ cookies
+          PhotonChat.ai does not directly use cookies. However, some third-party services we utilize may employ cookies
           or similar tracking technologies to monitor interactions with our Service. You can accept or decline cookies
           through your browser settings.
         </p>
@@ -96,10 +96,10 @@ export default function PrivacyPage() {
         <h2 className='mt-10 text-xl font-semibold'>Contact Information</h2>
         <p>
           If you have any questions about this Privacy Policy, please contact us at
-          <a href='mailto:support@protonchat.ai'> support@protonchat.ai</a>.
+          <a href='mailto:support@photonchat.ai'> support@photonchat.ai</a>.
         </p>
 
-        <p>By using ProtonChat.ai, you consent to this Privacy Policy.</p>
+        <p>By using PhotonChat.ai, you consent to this Privacy Policy.</p>
       </main>
     </div>
   );

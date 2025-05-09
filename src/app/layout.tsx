@@ -29,19 +29,19 @@ const montserratAlternates = Montserrat_Alternates({
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Proton Chat',
-  description: 'Chat securely with your Proton Mail data using AI-powered conversations and insights',
-  keywords: ['Proton Chat', 'Proton Mail', 'ProtonMail', 'Proton', 'AI Email', 'Email Chat'],
+  title: 'Photon Chat',
+  description: 'Chat securely with your Photon Mail data using AI-powered conversations and insights',
+  keywords: ['Photon Chat', 'Photon Mail', 'PhotonMail', 'Photon', 'AI Email', 'Email Chat'],
   category: 'Email',
 
   openGraph: {
-    title: 'Proton Chat',
-    description: 'Secure Chat with Proton Data',
-    url: 'https://www.protonchat.ai',
-    siteName: 'Proton Chat',
+    title: 'Photon Chat',
+    description: 'The AI Email Agent',
+    url: 'https://www.photonchat.ai',
+    siteName: 'Photon Chat',
     // images: [
     //   {
-    //     url: 'https://www.protonchat.ai/opengraph-image.jpg',
+    //     url: 'https://www.photonchat.ai/opengraph-image.jpg',
     //     width: 1200,
     //     height: 630,
     //   },
@@ -52,12 +52,12 @@ export const metadata: Metadata = {
 
   // twitter: {
   //   card: 'summary_large_image',
-  //   title: 'Proton Chat',
-  //   description: 'ProtonChat.ai',
-  //   creator: '@ProtonChat',
+  //   title: 'Photon Chat',
+  //   description: 'PhotonChat.ai',
+  //   creator: '@PhotonChat',
   //   siteId: 'TODO',
   //   creatorId: 'TODO',
-  //   images: ['https://www.protonchat.ai/opengraph-image.jpg'],
+  //   images: ['https://www.photonchat.ai/opengraph-image.jpg'],
   // },
 
   icons: {
@@ -99,7 +99,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
-  metadataBase: new URL('https://protonchat.ai'),
+  metadataBase: new URL('https://photonchat.ai'),
   // other: {
   //   'facebook-domain-verification': 'TODO',
   // },
