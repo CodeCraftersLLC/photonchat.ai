@@ -149,9 +149,9 @@ Use a short-lived, first-party session cookie or `sessionStorage`; do not create
 
 ### Phase 3 — Search attribution and reporting
 
-- [ ] Add the Search Console setup/runbook to repository documentation.
-- [ ] Add a small local/debug view or structured console mode for verifying event payloads without exposing production data.
-- [ ] Document how to compare Search Console queries with analytics source/CTA conversion data.
+- [x] Add the Search Console setup/runbook to repository documentation.
+- [x] Add a small local/debug view or structured console mode for verifying event payloads without exposing production data.
+- [x] Document how to compare Search Console queries with analytics source/CTA conversion data.
 
 ### Phase 4 — Validation
 
@@ -200,3 +200,4 @@ Use a short-lived, first-party session cookie or `sessionStorage`; do not create
 | Prettier reported formatting issues in new analytics files | 1 | Ran the repository Prettier formatter and rechecked successfully |
 | ESLint defaulted to flat config and could not read `.eslintrc.json` | 1 | Re-ran the changed-file lint with `ESLINT_USE_FLAT_CONFIG=false` |
 | A provider patch did not match after import sorting | 1 | Re-read the formatted header and applied a smaller exact patch |
+| Prettier could not infer a parser for plain `public/robots.txt` | 1 | Formatted/checks applied to supported source and documentation files; left robots text unchanged except for its sitemap line |

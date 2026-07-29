@@ -50,7 +50,14 @@ export function trackEvent(eventName: string, metadata: AnalyticsMetadata = {}):
   if (typeof window === 'undefined') return;
 
   try {
-    window.sa_event?.(normalizeEventName(eventName), normalizeMetadata(metadata));
+    const normalizedEventName = normalizeEventName(eventName);
+    const normalizedMetadata = normalizeMetadata(metadata);
+
+    if (process.env.NODE_ENV === 'development' || new URLSearchParams(window.location.search).has('analytics_debug')) {
+      console.debug('[analytics]', normalizedEventName, normalizedMetadata);
+    }
+
+    window.sa_event?.(normalizedEventName, normalizedMetadata);
   } catch {
     // Analytics must never block navigation or the underlying user action.
   }
