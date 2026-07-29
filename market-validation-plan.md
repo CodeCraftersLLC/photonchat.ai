@@ -128,17 +128,17 @@ Use a short-lived, first-party session cookie or `sessionStorage`; do not create
 
 ### Phase 0 — Branch and baseline
 
-- [ ] Create `feat/market-validation` from the current product baseline.
-- [ ] Record the current analytics provider configuration and existing event/pageview behavior.
+- [x] Create `feat/market-validation` from the current product baseline.
+- [x] Record the current analytics provider configuration and existing event/pageview behavior.
 - [ ] Verify Search Console ownership and capture a 28-day baseline.
-- [ ] Confirm the event naming and privacy rules in this plan.
+- [x] Confirm the event naming and privacy rules in this plan.
 
 ### Phase 1 — Analytics foundation
 
-- [ ] Add/render the selected analytics provider initialization.
-- [ ] Implement the centralized event adapter and typed event payloads.
-- [ ] Implement first-touch source/referrer/UTM normalization.
-- [ ] Add a single root-level client listener/provider with no duplicate listeners.
+- [x] Add/render the selected analytics provider initialization.
+- [x] Implement the centralized event adapter and typed event payloads.
+- [x] Implement first-touch source/referrer/UTM normalization.
+- [x] Add a single root-level client listener/provider with no duplicate listeners.
 
 ### Phase 2 — Site instrumentation
 
@@ -197,3 +197,4 @@ Use a short-lived, first-party session cookie or `sessionStorage`; do not create
 | Error | Attempt | Resolution |
 |---|---:|---|
 | `git diff --cached --check` reported an extra blank line at EOF | 1 | Removed the trailing blank line before commit |
+| Prettier reported formatting issues in new analytics files | 1 | Ran the repository Prettier formatter and rechecked successfully |

@@ -5,10 +5,10 @@ import Link from 'next/link';
 import Script from 'next/script';
 import { IoLogoFacebook, IoLogoInstagram, IoLogoTwitter } from 'react-icons/io5';
 
+import { AnalyticsProvider } from '@/components/analytics-provider';
 import { Logo } from '@/components/logo';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/utils/cn';
-import { Analytics } from '@vercel/analytics/react';
 
 import { Navigation } from './navigation';
 
@@ -108,9 +108,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang='en'>
+      <Script id='simple-analytics-event-queue' strategy='beforeInteractive'>
+        {`window.sa_event=window.sa_event||function(){var a=[].slice.call(arguments);window.sa_event.q?window.sa_event.q.push(a):window.sa_event.q=[a]};`}
+      </Script>
       <Script async src='https://scripts.simpleanalyticscdn.com/latest.js' />
       <body className={cn('font-sans antialiased', montserrat.variable, montserratAlternates.variable)}>
-        {children}
+        <AnalyticsProvider>{children}</AnalyticsProvider>
       </body>
     </html>
   );
