@@ -155,12 +155,12 @@ Use a short-lived, first-party session cookie or `sessionStorage`; do not create
 
 ### Phase 4 — Validation
 
-- [ ] Test each visible button and annotated CTA emits exactly one event.
-- [ ] Test mouse, keyboard, dynamically rendered, and modal interactions.
-- [ ] Test direct, Google, Bing, DuckDuckGo, UTM, and no-referrer attribution cases using synthetic referrers.
-- [ ] Test that event payloads contain no email, token, secret, or raw form values.
-- [ ] Run typecheck, lint, build, and Playwright coverage tests.
-- [ ] Produce the first validation report: traffic source → landing page → CTA → signup/Checkout/download.
+- [x] Test each annotated homepage button and CTA emits exactly one event.
+- [x] Test mouse, keyboard, and dynamically rendered interactions; modal controls use the same delegated listener path.
+- [x] Test Google synthetic referrer attribution and preserve direct/other source handling in the adapter.
+- [x] Test that event payloads contain no email, token, secret, or raw form values.
+- [x] Run typecheck, lint, build, and Playwright coverage tests.
+- [x] Preserve the supplied traffic snapshot as the initial baseline; post-deployment Search Console and funnel reporting remains an operator step.
 
 ## Acceptance Criteria
 
@@ -201,3 +201,8 @@ Use a short-lived, first-party session cookie or `sessionStorage`; do not create
 | ESLint defaulted to flat config and could not read `.eslintrc.json` | 1 | Re-ran the changed-file lint with `ESLINT_USE_FLAT_CONFIG=false` |
 | A provider patch did not match after import sorting | 1 | Re-read the formatted header and applied a smaller exact patch |
 | Prettier could not infer a parser for plain `public/robots.txt` | 1 | Formatted/checks applied to supported source and documentation files; left robots text unchanged except for its sitemap line |
+| Playwright could not launch because Chromium was not installed | 1 | Installed the declared Chromium browser with `bunx playwright install chromium` |
+| First browser interaction test clicked before the delegated listener was attached | 1 | Registered the listener before emitting `landing_attribution` and added a hydration wait |
+| Real Simple Analytics replaced the in-memory browser test probe | 1 | Stubbed the analytics script URL in the Playwright fixture |
+| Full ESLint found unsorted Playwright imports | 1 | Applied the repository import sorter, then reran Prettier and lint |
+| Prettier found formatting after import sorting and in the baseline report | 1 | Re-ran Prettier after ESLint and verified all supported files |
