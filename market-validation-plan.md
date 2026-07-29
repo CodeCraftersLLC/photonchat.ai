@@ -50,8 +50,8 @@ Search Console is the source of truth for organic terms; browser analytics is th
 
 Create a small client-safe adapter such as `src/utils/analytics.ts` or `src/libs/analytics/track.ts`.
 
-- Prefer the already-installed `@vercel/analytics` custom-event API, after confirming the installed package API locally.
-- Keep the existing Simple Analytics script as the baseline pageview/referrer provider unless there is a deliberate decision to consolidate providers.
+- Use the existing Simple Analytics script and its `sa_event(name, metadata)` API as the primary event transport; this avoids adding a dependency or requiring a Vercel Analytics plan upgrade for custom events.
+- Keep `@vercel/analytics` optional for pageviews only if the deployment intentionally enables it; do not depend on Vercel custom events for the validation funnel.
 - Make tracking fire-and-forget; analytics failures must never block navigation or button behavior.
 - Keep provider-specific calls out of page and component code.
 
