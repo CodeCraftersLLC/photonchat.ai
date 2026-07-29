@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, type PropsWithChildren } from 'react';
+import { type PropsWithChildren, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 import {
-  captureFirstTouchAttribution,
-  trackEvent,
   type AnalyticsMetadata,
+  captureFirstTouchAttribution,
   type FirstTouchAttribution,
+  trackEvent,
 } from '@/libs/analytics/analytics';
 
 function getInteractiveElement(target: EventTarget | null): HTMLElement | null {
@@ -36,6 +37,10 @@ function getElementType(element: HTMLElement): string {
   return 'role_button';
 }
 
+function getEventName(element: HTMLElement): string {
+  return element.dataset.analyticsEvent?.trim() || 'ui_click';
+}
+
 function getSafeTarget(element: HTMLElement): string {
   const href = element.getAttribute('href');
   if (!href) return element.dataset.analyticsAction?.slice(0, 255) ?? 'button_action';
@@ -56,10 +61,20 @@ function getClickMetadata(element: HTMLElement, attribution: FirstTouchAttributi
     element_type: getElementType(element),
     route: window.location.pathname,
     target: getSafeTarget(element),
+    plan: element.dataset.analyticsPlan ?? null,
+    location: element.dataset.analyticsLocation ?? null,
   };
 }
 
 export function AnalyticsProvider({ children }: PropsWithChildren) {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (pathname === '/pricing') {
+      trackEvent('pricing_view', { location: 'pricing_page', route: pathname });
+    }
+  }, [pathname]);
+
   useEffect(() => {
     const { attribution, isNew } = captureFirstTouchAttribution();
 
@@ -69,7 +84,7 @@ export function AnalyticsProvider({ children }: PropsWithChildren) {
       const element = getInteractiveElement(event.target);
       if (!element || element.dataset.analyticsSkip !== undefined) return;
 
-      trackEvent('ui_click', getClickMetadata(element, attribution));
+      trackEvent(getEventName(element), getClickMetadata(element, attribution));
     };
 
     document.addEventListener('click', handleClick, true);

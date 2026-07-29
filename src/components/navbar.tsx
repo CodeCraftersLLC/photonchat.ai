@@ -21,23 +21,35 @@ export function Navbar() {
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         <div className='flex h-16 items-center justify-between'>
           <div className='flex items-center'>
-            <Link href='/' className='flex items-center'>
+            <Link href='/' className='flex items-center' data-analytics-id='nav_logo' data-analytics-event='nav_click'>
               <Image src='/photon-chat-logo.webp' alt='PhotonChat.ai Logo' width={32} height={32} className='mr-2' />
               <span className={`text-xl font-bold ${textColor}`}>Photon Chat</span>
             </Link>
           </div>
           <div className='hidden md:block'>
             <div className='ml-10 flex items-baseline space-x-4'>
-              <Link href='/#features' className={`px-3 py-2 text-sm font-medium ${textColor} ${textHoverColor}`}>
+              <Link
+                href='/#features'
+                className={`px-3 py-2 text-sm font-medium ${textColor} ${textHoverColor}`}
+                data-analytics-id='nav_features'
+                data-analytics-event='nav_click'
+              >
                 Features
               </Link>
               <Link
                 href='/pricing'
                 className={`px-3 py-2 text-sm font-medium ${textColor} ${textHoverColor} ${pathname === '/pricing' ? 'border-b-2 border-indigo-500' : ''}`}
+                data-analytics-id='nav_pricing'
+                data-analytics-event='nav_click'
               >
                 Pricing
               </Link>
-              <Link href='/#faq' className={`px-3 py-2 text-sm font-medium ${textColor} ${textHoverColor}`}>
+              <Link
+                href='/#faq'
+                className={`px-3 py-2 text-sm font-medium ${textColor} ${textHoverColor}`}
+                data-analytics-id='nav_faq'
+                data-analytics-event='nav_click'
+              >
                 FAQ
               </Link>
             </div>
@@ -48,6 +60,8 @@ export function Navbar() {
               target='_blank'
               rel='noopener noreferrer'
               className={`inline-flex items-center px-4 py-2 ${textColor} ${textHoverColor}`}
+              data-analytics-id='nav_github'
+              data-analytics-event='external_link_click'
             >
               <FaGithub className='text-xl' />
             </a>
@@ -57,12 +71,16 @@ export function Navbar() {
               rel='noopener noreferrer'
               className={`inline-flex items-center px-4 py-2 ${textColor} ${textHoverColor}`}
               aria-label='Join our Discord server'
+              data-analytics-id='nav_discord'
+              data-analytics-event='external_link_click'
             >
               <FaDiscord className='text-xl' />
             </a>
             <Link
               href='/signup'
               className='inline-flex items-center rounded-md border border-transparent bg-black px-6 py-2 text-base font-medium text-white shadow-sm hover:bg-black/90 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2'
+              data-analytics-id='nav_get_started'
+              data-analytics-event='signup_click'
             >
               Get Started
             </Link>

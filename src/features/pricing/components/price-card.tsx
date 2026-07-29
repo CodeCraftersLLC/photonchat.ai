@@ -81,6 +81,10 @@ export function PricingCard({
               <Button
                 variant={buttonVariantMap[metadata.priceCardVariant]}
                 className='w-full'
+                data-analytics-id={`pricing_card_${metadata.priceCardVariant}_get_started`}
+                data-analytics-event='pricing_plan_click'
+                data-analytics-plan={metadata.priceCardVariant}
+                data-analytics-location='pricing_page'
                 onClick={async () => {
                   if (!userId) {
                     router.push('/signup');
@@ -92,7 +96,7 @@ export function PricingCard({
                       setModalMessage(result.error);
                     } else {
                       setModalMessage(
-                        'We will email you when the subscription is available. Thank you for your patience!'
+                        'We will email you when the subscription is available. Thank you for your patience!',
                       );
                     }
                     setIsInfoModalOpen(true);
@@ -107,7 +111,14 @@ export function PricingCard({
               </Button>
             )}
             {!currentPrice && (
-              <Button variant={buttonVariantMap[metadata.priceCardVariant]} className='w-full' asChild>
+              <Button
+                variant={buttonVariantMap[metadata.priceCardVariant]}
+                className='w-full'
+                data-analytics-id={`pricing_card_${metadata.priceCardVariant}_contact`}
+                data-analytics-event='contact_click'
+                data-analytics-location='pricing_page'
+                asChild
+              >
                 <Link href='/contact'>Contact Us</Link>
               </Button>
             )}

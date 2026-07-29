@@ -78,6 +78,8 @@ export function UserProfileMenu() {
   return (
     <div className='relative' ref={menuRef}>
       <button
+        data-analytics-id='profile_menu_toggle'
+        data-analytics-event='profile_menu_toggle'
         onClick={() => setIsOpen(!isOpen)}
         className='flex h-10 w-10 items-center justify-center rounded-full bg-[#fff8e1] text-[#fbce2e] hover:bg-[#fff4c4] focus:outline-none focus:ring-2 focus:ring-[#fbce2e]'
         aria-expanded={isOpen}
@@ -106,6 +108,8 @@ export function UserProfileMenu() {
 
           <Link
             href='/account'
+            data-analytics-id='profile_account'
+            data-analytics-event='account_click'
             className='flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
             onClick={() => setIsOpen(false)}
           >
@@ -114,6 +118,8 @@ export function UserProfileMenu() {
           </Link>
 
           <button
+            data-analytics-id='profile_logout'
+            data-analytics-event='logout_click'
             onClick={handleLogout}
             className='flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
           >

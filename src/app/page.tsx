@@ -34,6 +34,7 @@ import { InfoModal } from '@/components/ui/info-modal';
 import { fetchProducts } from '@/features/pricing/actions';
 import { createSubscriptionInterestAction } from '@/features/pricing/actions/create-subscription-interest-action';
 import { Price, ProductWithPrices } from '@/features/pricing/types';
+import { trackEvent } from '@/libs/analytics/analytics';
 import { createSupabaseBrowserClient } from '@/libs/supabase/supabase-browser-client';
 import type { User } from '@supabase/supabase-js';
 
@@ -119,6 +120,19 @@ export default function HomePage() {
       animateOnScroll.observe(el);
     });
 
+    const pricingSection = document.getElementById('pricing');
+    const pricingVisibilityObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          trackEvent('pricing_view', { location: 'home', route: window.location.pathname });
+          pricingVisibilityObserver.disconnect();
+        }
+      },
+      { threshold: 0.25 },
+    );
+
+    if (pricingSection) pricingVisibilityObserver.observe(pricingSection);
+
     const loadProducts = async () => {
       try {
         const fetchedProducts = await fetchProducts();
@@ -140,6 +154,7 @@ export default function HomePage() {
     return () => {
       observer.disconnect();
       animateOnScroll.disconnect();
+      pricingVisibilityObserver.disconnect();
     };
   }, []);
 
@@ -197,12 +212,18 @@ export default function HomePage() {
               <div className='mt-10 flex justify-center space-x-4'>
                 <a
                   href='#pricing'
+                  data-analytics-id='home_hero_pricing'
+                  data-analytics-event='landing_cta_click'
+                  data-analytics-location='hero'
                   className='inline-flex items-center rounded-md border border-transparent bg-black px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-black/90 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2'
                 >
                   Download Now
                 </a>
                 <a
                   href='#features'
+                  data-analytics-id='home_hero_features'
+                  data-analytics-event='features_anchor_click'
+                  data-analytics-location='hero'
                   className='inline-flex items-center rounded-md border border-black bg-white px-6 py-3 text-base font-medium text-black shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2'
                 >
                   Learn More
@@ -372,6 +393,10 @@ export default function HomePage() {
                 <button
                   onClick={() => handleGetStartedClick(monthlyPrice, 'Monthly')}
                   disabled={!monthlyPrice} // Disable if price is not loaded
+                  data-analytics-id='home_pricing_monthly'
+                  data-analytics-event='pricing_plan_click'
+                  data-analytics-plan='monthly'
+                  data-analytics-location='home_pricing'
                   className='mt-8 block w-full rounded-md border border-transparent bg-black px-6 py-3 text-center font-medium text-white hover:bg-black/90 disabled:opacity-50'
                 >
                   Get started
@@ -408,6 +433,10 @@ export default function HomePage() {
                 <button
                   onClick={() => handleGetStartedClick(yearlyPrice, 'Annual')}
                   disabled={!yearlyPrice} // Disable if price is not loaded
+                  data-analytics-id='home_pricing_annual'
+                  data-analytics-event='pricing_plan_click'
+                  data-analytics-plan='annual'
+                  data-analytics-location='home_pricing'
                   className='mt-8 block w-full rounded-md border border-transparent bg-white px-6 py-3 text-center font-medium text-gray-900 hover:bg-gray-100 disabled:opacity-50'
                 >
                   Get started
@@ -495,6 +524,9 @@ export default function HomePage() {
               <div className='inline-flex rounded-md shadow'>
                 <a
                   href='#pricing'
+                  data-analytics-id='home_final_pricing'
+                  data-analytics-event='landing_cta_click'
+                  data-analytics-location='final_cta'
                   className='inline-flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-black hover:bg-gray-100'
                 >
                   Get started
@@ -522,13 +554,23 @@ export default function HomePage() {
                     <h3 className='text-sm font-semibold uppercase tracking-wider text-gray-400'>Product</h3>
                     <ul className='mt-4 space-y-4'>
                       <li>
-                        <a href='#features' className='text-base text-gray-500 hover:text-gray-900'>
+                        <a
+                          href='#features'
+                          data-analytics-id='footer_features'
+                          data-analytics-event='nav_click'
+                          className='text-base text-gray-500 hover:text-gray-900'
+                        >
                           {' '}
                           Features{' '}
                         </a>
                       </li>
                       <li>
-                        <a href='#pricing' className='text-base text-gray-500 hover:text-gray-900'>
+                        <a
+                          href='#pricing'
+                          data-analytics-id='footer_pricing'
+                          data-analytics-event='nav_click'
+                          className='text-base text-gray-500 hover:text-gray-900'
+                        >
                           {' '}
                           Pricing{' '}
                         </a>
@@ -539,7 +581,12 @@ export default function HomePage() {
                     <h3 className='text-sm font-semibold uppercase tracking-wider text-gray-400'>Company</h3>
                     <ul className='mt-4 space-y-4'>
                       <li>
-                        <a href='/about' className='text-base text-gray-500 hover:text-gray-900'>
+                        <a
+                          href='/about'
+                          data-analytics-id='footer_about'
+                          data-analytics-event='nav_click'
+                          className='text-base text-gray-500 hover:text-gray-900'
+                        >
                           {' '}
                           About{' '}
                         </a>
@@ -552,12 +599,22 @@ export default function HomePage() {
                     <h3 className='text-sm font-semibold uppercase tracking-wider text-gray-400'>Legal</h3>
                     <ul className='mt-4 space-y-4'>
                       <li>
-                        <a href='/privacy' className='text-base text-gray-500 hover:text-gray-900'>
+                        <a
+                          href='/privacy'
+                          data-analytics-id='footer_privacy'
+                          data-analytics-event='nav_click'
+                          className='text-base text-gray-500 hover:text-gray-900'
+                        >
                           Privacy
                         </a>
                       </li>
                       <li>
-                        <a href='/terms' className='text-base text-gray-500 hover:text-gray-900'>
+                        <a
+                          href='/terms'
+                          data-analytics-id='footer_terms'
+                          data-analytics-event='nav_click'
+                          className='text-base text-gray-500 hover:text-gray-900'
+                        >
                           Terms
                         </a>
                       </li>
@@ -567,13 +624,23 @@ export default function HomePage() {
                     <h3 className='text-sm font-semibold uppercase tracking-wider text-gray-400'>Support</h3>
                     <ul className='mt-4 space-y-4'>
                       <li>
-                        <a href='#faq' className='text-base text-gray-500 hover:text-gray-900'>
+                        <a
+                          href='#faq'
+                          data-analytics-id='footer_faq'
+                          data-analytics-event='nav_click'
+                          className='text-base text-gray-500 hover:text-gray-900'
+                        >
                           {' '}
                           FAQ{' '}
                         </a>
                       </li>
                       <li>
-                        <a href='/about' className='text-base text-gray-500 hover:text-gray-900'>
+                        <a
+                          href='/about'
+                          data-analytics-id='footer_contact'
+                          data-analytics-event='nav_click'
+                          className='text-base text-gray-500 hover:text-gray-900'
+                        >
                           {' '}
                           Contact{' '}
                         </a>

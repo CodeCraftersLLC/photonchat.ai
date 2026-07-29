@@ -142,10 +142,10 @@ Use a short-lived, first-party session cookie or `sessionStorage`; do not create
 
 ### Phase 2 — Site instrumentation
 
-- [ ] Add stable analytics IDs to landing-page CTAs, nav links, pricing controls, auth links, legal links, and external community links.
-- [ ] Verify all `<button>` elements in `src/app`, `src/components`, and pricing/auth UI are covered.
-- [ ] Add explicit funnel events for pricing, signup, and future Checkout/download actions.
-- [ ] Add an event for page-level pricing visibility when the pricing section enters the viewport.
+- [x] Add stable analytics IDs to landing-page CTAs, nav links, pricing controls, auth links, legal links, and external community links.
+- [x] Verify all `<button>` elements in `src/app`, `src/components`, and pricing/auth UI are covered.
+- [x] Add explicit funnel events for pricing, signup, and future Checkout/download actions.
+- [x] Add an event for page-level pricing visibility when the pricing section enters the viewport or `/pricing` is visited.
 
 ### Phase 3 — Search attribution and reporting
 
@@ -198,3 +198,5 @@ Use a short-lived, first-party session cookie or `sessionStorage`; do not create
 |---|---:|---|
 | `git diff --cached --check` reported an extra blank line at EOF | 1 | Removed the trailing blank line before commit |
 | Prettier reported formatting issues in new analytics files | 1 | Ran the repository Prettier formatter and rechecked successfully |
+| ESLint defaulted to flat config and could not read `.eslintrc.json` | 1 | Re-ran the changed-file lint with `ESLINT_USE_FLAT_CONFIG=false` |
+| A provider patch did not match after import sorting | 1 | Re-read the formatted header and applied a smaller exact patch |

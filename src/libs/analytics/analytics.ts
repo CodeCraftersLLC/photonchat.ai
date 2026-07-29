@@ -38,7 +38,7 @@ function normalizeEventName(eventName: string): string {
 function normalizeMetadata(metadata: AnalyticsMetadata): AnalyticsMetadata {
   return Object.fromEntries(
     Object.entries(metadata)
-      .filter(([, value]) => value !== undefined)
+      .filter(([, value]) => value !== undefined && value !== null)
       .map(([key, value]) => [
         key.replace(/[^a-zA-Z0-9_]+/g, '_').slice(0, MAX_VALUE_LENGTH),
         typeof value === 'string' ? value.slice(0, MAX_VALUE_LENGTH) : value,
