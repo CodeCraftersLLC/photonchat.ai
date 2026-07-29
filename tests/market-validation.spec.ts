@@ -118,3 +118,37 @@ test('captures keyboard activation for dynamically added buttons', async ({ page
     })
     .toBe(1);
 });
+
+test('gives unannotated buttons distinct privacy-safe fallback IDs', async ({ page }) => {
+  await installAnalyticsProbe(page);
+  await page.goto('/?analytics_debug=1');
+
+  await expect
+    .poll(async () => {
+      const events = await readEvents(page);
+      return events.filter((event) => event.name === 'landing_attribution').length;
+    })
+    .toBe(1);
+
+  await page.evaluate(() => {
+    for (const label of ['First test button', 'Second test button']) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = label;
+      document.body.append(button);
+      button.click();
+    }
+  });
+
+  await expect
+    .poll(async () => {
+      const events = await readEvents(page);
+      return events.filter((event) => event.name === 'ui_click').length;
+    })
+    .toBe(2);
+
+  const clickEvents = (await readEvents(page)).filter((event) => event.name === 'ui_click');
+  expect(new Set(clickEvents.map((event) => event.metadata.element_id)).size).toBe(2);
+  expect(JSON.stringify(clickEvents)).not.toContain('First test button');
+  expect(JSON.stringify(clickEvents)).not.toContain('Second test button');
+});

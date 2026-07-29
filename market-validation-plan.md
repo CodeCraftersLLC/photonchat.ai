@@ -183,26 +183,28 @@ Use a short-lived, first-party session cookie or `sessionStorage`; do not create
 
 ## Risks and Guardrails
 
-| Risk | Guardrail |
-|---|---|
-| Google query terms are unavailable in the browser | Use Search Console as the query source of truth |
-| Generic text-based IDs become unstable | Require explicit IDs for conversion CTAs |
-| Global listeners double-count events | Mount one provider and test exact-once behavior |
-| Analytics leaks sensitive data | Typed allow-list payloads; never send form values or full referrers |
-| Small sample creates false confidence | Report unique visitors, time window, and denominators alongside rates |
-| Tracking script blocks UX | Fire-and-forget adapter with no navigation dependency |
+| Risk                                              | Guardrail                                                             |
+| ------------------------------------------------- | --------------------------------------------------------------------- |
+| Google query terms are unavailable in the browser | Use Search Console as the query source of truth                       |
+| Generic text-based IDs become unstable            | Require explicit IDs for conversion CTAs                              |
+| Global listeners double-count events              | Mount one provider and test exact-once behavior                       |
+| Analytics leaks sensitive data                    | Typed allow-list payloads; never send form values or full referrers   |
+| Small sample creates false confidence             | Report unique visitors, time window, and denominators alongside rates |
+| Tracking script blocks UX                         | Fire-and-forget adapter with no navigation dependency                 |
 
 ## Errors Encountered
 
-| Error | Attempt | Resolution |
-|---|---:|---|
-| `git diff --cached --check` reported an extra blank line at EOF | 1 | Removed the trailing blank line before commit |
-| Prettier reported formatting issues in new analytics files | 1 | Ran the repository Prettier formatter and rechecked successfully |
-| ESLint defaulted to flat config and could not read `.eslintrc.json` | 1 | Re-ran the changed-file lint with `ESLINT_USE_FLAT_CONFIG=false` |
-| A provider patch did not match after import sorting | 1 | Re-read the formatted header and applied a smaller exact patch |
-| Prettier could not infer a parser for plain `public/robots.txt` | 1 | Formatted/checks applied to supported source and documentation files; left robots text unchanged except for its sitemap line |
-| Playwright could not launch because Chromium was not installed | 1 | Installed the declared Chromium browser with `bunx playwright install chromium` |
-| First browser interaction test clicked before the delegated listener was attached | 1 | Registered the listener before emitting `landing_attribution` and added a hydration wait |
-| Real Simple Analytics replaced the in-memory browser test probe | 1 | Stubbed the analytics script URL in the Playwright fixture |
-| Full ESLint found unsorted Playwright imports | 1 | Applied the repository import sorter, then reran Prettier and lint |
-| Prettier found formatting after import sorting and in the baseline report | 1 | Re-ran Prettier after ESLint and verified all supported files |
+| Error                                                                             | Attempt | Resolution                                                                                                                   |
+| --------------------------------------------------------------------------------- | ------: | ---------------------------------------------------------------------------------------------------------------------------- |
+| `git diff --cached --check` reported an extra blank line at EOF                   |       1 | Removed the trailing blank line before commit                                                                                |
+| Prettier reported formatting issues in new analytics files                        |       1 | Ran the repository Prettier formatter and rechecked successfully                                                             |
+| ESLint defaulted to flat config and could not read `.eslintrc.json`               |       1 | Re-ran the changed-file lint with `ESLINT_USE_FLAT_CONFIG=false`                                                             |
+| A provider patch did not match after import sorting                               |       1 | Re-read the formatted header and applied a smaller exact patch                                                               |
+| Prettier could not infer a parser for plain `public/robots.txt`                   |       1 | Formatted/checks applied to supported source and documentation files; left robots text unchanged except for its sitemap line |
+| Playwright could not launch because Chromium was not installed                    |       1 | Installed the declared Chromium browser with `bunx playwright install chromium`                                              |
+| First browser interaction test clicked before the delegated listener was attached |       1 | Registered the listener before emitting `landing_attribution` and added a hydration wait                                     |
+| Referrer parsing or malformed session storage could make attribution throw        |       1 | Added safe URL parsing, validated stored attribution, and a direct-attribution fallback                                      |
+| Multiple unannotated buttons shared one fallback ID                               |       1 | Added a privacy-safe DOM-path fallback and product-specific pricing IDs                                                      |
+| Real Simple Analytics replaced the in-memory browser test probe                   |       1 | Stubbed the analytics script URL in the Playwright fixture                                                                   |
+| Full ESLint found unsorted Playwright imports                                     |       1 | Applied the repository import sorter, then reran Prettier and lint                                                           |
+| Prettier found formatting after import sorting and in the baseline report         |       1 | Re-ran Prettier after ESLint and verified all supported files                                                                |

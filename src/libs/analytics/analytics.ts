@@ -27,6 +27,20 @@ declare global {
 const FIRST_TOUCH_STORAGE_KEY = 'photonchat.first-touch.v1';
 const MAX_VALUE_LENGTH = 255;
 
+function getDirectAttribution(landingPath = '/'): FirstTouchAttribution {
+  return {
+    first_touch_source: 'direct',
+    first_touch_referrer_host: '',
+    first_touch_landing_path: landingPath,
+    first_touch_utm_source: '',
+    first_touch_utm_medium: '',
+    first_touch_utm_campaign: '',
+    first_touch_has_gclid: false,
+    first_touch_has_msclkid: false,
+    first_touch_search_query_available: false,
+  };
+}
+
 function normalizeEventName(eventName: string): string {
   const normalized = eventName
     .trim()
@@ -80,9 +94,19 @@ function readSearchQueryAvailability(referrer: URL | null, source: FirstTouchAtt
   return ['q', 'query', 'p', 'text'].some((key) => referrer.searchParams.has(key));
 }
 
+function parseUrl(value: string): URL | null {
+  if (!value) return null;
+
+  try {
+    return new URL(value);
+  } catch {
+    return null;
+  }
+}
+
 function getAttributionFromWindow(): FirstTouchAttribution {
   const currentUrl = new URL(window.location.href);
-  const referrerUrl = document.referrer ? new URL(document.referrer) : null;
+  const referrerUrl = parseUrl(document.referrer);
   const source = classifyReferrer(referrerUrl?.hostname ?? '');
 
   return {
@@ -98,34 +122,49 @@ function getAttributionFromWindow(): FirstTouchAttribution {
   };
 }
 
+function getAttributionSafely(): FirstTouchAttribution {
+  try {
+    return getAttributionFromWindow();
+  } catch {
+    return getDirectAttribution(window.location.pathname || '/');
+  }
+}
+
+function isFirstTouchAttribution(value: unknown): value is FirstTouchAttribution {
+  if (!value || typeof value !== 'object') return false;
+
+  const attribution = value as Partial<FirstTouchAttribution>;
+  return (
+    ['google', 'bing', 'duckduckgo', 'yahoo', 'other', 'direct'].includes(attribution.first_touch_source ?? '') &&
+    typeof attribution.first_touch_referrer_host === 'string' &&
+    typeof attribution.first_touch_landing_path === 'string' &&
+    typeof attribution.first_touch_utm_source === 'string' &&
+    typeof attribution.first_touch_utm_medium === 'string' &&
+    typeof attribution.first_touch_utm_campaign === 'string' &&
+    typeof attribution.first_touch_has_gclid === 'boolean' &&
+    typeof attribution.first_touch_has_msclkid === 'boolean' &&
+    typeof attribution.first_touch_search_query_available === 'boolean'
+  );
+}
+
 export function captureFirstTouchAttribution(): { attribution: FirstTouchAttribution; isNew: boolean } {
   if (typeof window === 'undefined') {
-    return {
-      attribution: {
-        first_touch_source: 'direct',
-        first_touch_referrer_host: '',
-        first_touch_landing_path: '/',
-        first_touch_utm_source: '',
-        first_touch_utm_medium: '',
-        first_touch_utm_campaign: '',
-        first_touch_has_gclid: false,
-        first_touch_has_msclkid: false,
-        first_touch_search_query_available: false,
-      },
-      isNew: false,
-    };
+    return { attribution: getDirectAttribution(), isNew: false };
   }
 
   try {
     const existing = window.sessionStorage.getItem(FIRST_TOUCH_STORAGE_KEY);
     if (existing) {
-      return { attribution: JSON.parse(existing) as FirstTouchAttribution, isNew: false };
+      const parsed = JSON.parse(existing) as unknown;
+      if (isFirstTouchAttribution(parsed)) {
+        return { attribution: parsed, isNew: false };
+      }
     }
 
     const attribution = getAttributionFromWindow();
     window.sessionStorage.setItem(FIRST_TOUCH_STORAGE_KEY, JSON.stringify(attribution));
     return { attribution, isNew: true };
   } catch {
-    return { attribution: getAttributionFromWindow(), isNew: true };
+    return { attribution: getAttributionSafely(), isNew: true };
   }
 }

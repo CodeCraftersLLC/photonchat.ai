@@ -28,7 +28,16 @@ function getElementId(element: HTMLElement): string {
       .replace(/[^a-z0-9]+/g, '_')
       .slice(0, 80)}`;
 
-  return `auto_${element.tagName.toLowerCase()}_unnamed`;
+  const path: string[] = [];
+  let current: HTMLElement | null = element;
+
+  while (current && path.length < 4) {
+    const siblingIndex = current.parentElement ? Array.from(current.parentElement.children).indexOf(current) : 0;
+    path.unshift(`${current.tagName.toLowerCase()}_${siblingIndex}`);
+    current = current.parentElement;
+  }
+
+  return `auto_${path.join('_')}`;
 }
 
 function getElementType(element: HTMLElement): string {
@@ -78,8 +87,6 @@ export function AnalyticsProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     const { attribution, isNew } = captureFirstTouchAttribution();
 
-    if (isNew) trackEvent('landing_attribution', attribution);
-
     const handleClick = (event: MouseEvent) => {
       const element = getInteractiveElement(event.target);
       if (!element || element.dataset.analyticsSkip !== undefined) return;
@@ -88,6 +95,8 @@ export function AnalyticsProvider({ children }: PropsWithChildren) {
     };
 
     document.addEventListener('click', handleClick, true);
+    if (isNew) trackEvent('landing_attribution', attribution);
+
     return () => document.removeEventListener('click', handleClick, true);
   }, []);
 
