@@ -22,7 +22,7 @@ export function Navbar() {
         <div className='flex h-16 items-center justify-between'>
           <div className='flex items-center'>
             <Link href='/' className='flex items-center'>
-              <Image src='/photon-chat-logo.png' alt='PhotonChat.ai Logo' width={32} height={32} className='mr-2' />
+              <Image src='/photon-chat-logo.webp' alt='PhotonChat.ai Logo' width={32} height={32} className='mr-2' />
               <span className={`text-xl font-bold ${textColor}`}>Photon Chat</span>
             </Link>
           </div>
