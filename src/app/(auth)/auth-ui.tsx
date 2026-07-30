@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
+import { trackEvent } from '@/libs/analytics/analytics';
 import { ActionResponse } from '@/types/action-response';
 
 const titleMap = {
@@ -38,6 +39,7 @@ export function AuthUI({
     setPending(true);
     const form = event.target as HTMLFormElement;
     const email = form['email'].value;
+    trackEvent('auth_email_submit', { route: window.location.pathname });
     const response = await signInWithEmail(email);
 
     if (response?.error) {
@@ -76,6 +78,9 @@ export function AuthUI({
 
       <div className='space-y-4'>
         <button
+          data-analytics-id='auth_google'
+          data-analytics-event='auth_provider_click'
+          data-analytics-plan='google'
           className='flex w-full items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-medium text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-200 hover:bg-gray-50 disabled:opacity-70'
           onClick={() => handleOAuthClick('google')}
           disabled={pending}
@@ -85,6 +90,9 @@ export function AuthUI({
         </button>
 
         <button
+          data-analytics-id='auth_github'
+          data-analytics-event='auth_provider_click'
+          data-analytics-plan='github'
           className='flex w-full items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-medium text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-200 hover:bg-gray-50 disabled:opacity-70'
           onClick={() => handleOAuthClick('github')}
           disabled={pending}
@@ -105,6 +113,8 @@ export function AuthUI({
         <Collapsible open={emailFormOpen} onOpenChange={setEmailFormOpen}>
           <CollapsibleTrigger asChild>
             <button
+              data-analytics-id='auth_email_toggle'
+              data-analytics-event='auth_email_toggle'
               className='flex w-full items-center justify-center gap-2 rounded-lg bg-black px-4 py-3 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-black/90 disabled:opacity-70'
               disabled={pending}
             >
@@ -125,12 +135,20 @@ export function AuthUI({
                 <div className='flex justify-end gap-2'>
                   <Button
                     type='button'
+                    data-analytics-id='auth_email_cancel'
+                    data-analytics-event='auth_email_cancel'
                     onClick={() => setEmailFormOpen(false)}
                     className='bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
                   >
                     Cancel
                   </Button>
-                  <Button type='submit' className='bg-black text-white hover:bg-black/90'>
+                  <Button
+                    type='submit'
+                    data-analytics-id='auth_email_continue'
+                    data-analytics-event='auth_email_submit'
+                    data-analytics-skip
+                    className='bg-black text-white hover:bg-black/90'
+                  >
                     Continue
                   </Button>
                 </div>
@@ -143,11 +161,21 @@ export function AuthUI({
       {mode === 'signup' ? (
         <p className='text-center text-sm text-gray-500'>
           By continuing, you agree to our{' '}
-          <Link href='/terms' className='text-black hover:text-black/90'>
+          <Link
+            href='/terms'
+            data-analytics-id='auth_terms'
+            data-analytics-event='nav_click'
+            className='text-black hover:text-black/90'
+          >
             Terms of Service
           </Link>{' '}
           and{' '}
-          <Link href='/privacy' className='text-black hover:text-black/90'>
+          <Link
+            href='/privacy'
+            data-analytics-id='auth_privacy'
+            data-analytics-event='nav_click'
+            className='text-black hover:text-black/90'
+          >
             Privacy Policy
           </Link>
           .
@@ -155,7 +183,12 @@ export function AuthUI({
       ) : (
         <p className='text-center text-sm text-gray-500'>
           Don&apos;t have an account?{' '}
-          <Link href='/signup' className='text-black hover:text-black/90'>
+          <Link
+            href='/signup'
+            data-analytics-id='auth_signup'
+            data-analytics-event='signup_click'
+            className='text-black hover:text-black/90'
+          >
             Sign up
           </Link>
         </p>

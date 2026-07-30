@@ -84,7 +84,13 @@ export default async function AccountPage() {
                     <PricingCard product={userProduct} price={userPrice} />
                     <div className='flex justify-end border-t border-gray-100 pt-4'>
                       <Button variant='secondary' asChild>
-                        <Link href='/manage-subscription'>Manage Subscription</Link>
+                        <Link
+                          href='/manage-subscription'
+                          data-analytics-id='account_manage_subscription'
+                          data-analytics-event='manage_subscription_click'
+                        >
+                          Manage Subscription
+                        </Link>
                       </Button>
                     </div>
                   </div>
@@ -92,7 +98,9 @@ export default async function AccountPage() {
                   <div className='py-8 text-center'>
                     <p className='mb-4 text-gray-500'>You don&apos;t have an active subscription</p>
                     <Button variant='default' asChild>
-                      <Link href='/pricing'>View Plans</Link>
+                      <Link href='/pricing' data-analytics-id='account_view_plans' data-analytics-event='pricing_view'>
+                        View Plans
+                      </Link>
                     </Button>
                   </div>
                 )}
@@ -119,6 +127,8 @@ function Card({
   return (
     <Link
       href={href}
+      data-analytics-id={`account_${title.toLowerCase()}`}
+      data-analytics-event='account_navigation_click'
       className='block rounded-xl border border-gray-100 bg-white p-6 shadow-lg transition-all duration-200 hover:border-indigo-100 hover:shadow-xl hover:ring-1 hover:ring-indigo-100'
     >
       <div className='flex items-center gap-4'>
